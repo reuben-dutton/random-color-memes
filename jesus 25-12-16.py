@@ -8,7 +8,7 @@ import numpy as np
 
 ## requires page id and access token to access that page
 page_id = "1250450778363053"
-acstoke = "EAAaKi61MD2cBAHkZBPcyUF9NpZCk6cSPQn876Wu06KIJyGmQkmkZCExAry0kBISGy8WOCwhZC71CUr9duouZCD8G6TGGyiw3bOwwCFzIZAR0kxW8P1NPmeKQQQDtk6ZCYDCD3Yowt8tVnkTRxcAMZB9jdqdau7OsvoNlIf0mpyxcRwZDZD"   
+acstoke = "replace this with the actual access token" 
 ## for facebook graph API
 graph = facebook.GraphAPI(access_token=acstoke)
 
@@ -312,4 +312,4 @@ def start_normal():
 
 
 colordict = get_colordict()
-print('Jesus initialized\n"start_normal()" to resume posting\nor "start_now" to start immediately')
+print('Jesus initialized\n"start_normal()" to resume posting\nor "start_now()" to start immediately')
