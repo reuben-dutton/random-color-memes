@@ -1,0 +1,6 @@
+*.gif
+*.jpeg
+*.jpg
+*.png
+*.pyc
+env.json

@@ -1,11 +1,11 @@
 import facebook, requests
 
 
-## requires page id and access token to access that page
-page_id = "1250450778363053"
-acstoke = "EAAaKi61MD2cBAA8NTsXSPFaKwStELjL8JSg0jf11xPY1dhzAwy33u5ui4aoP6Olvv7cs12QTTdK5Uzle3rRAzDY6oAxrtHGq0KVqFNaSBkmkTr6UsfzkOi7b6bLkQyc6ZBpBioK3z0z0ZBZC2NrcoFhiDLfEsj03rEfIJDXvwZDZD"   
-## for facebook graph API
-graph = facebook.GraphAPI(access_token=acstoke)
+env = json.loads(open('env.json').read())
+
+page_id = env['page_id']
+at = env['page_token']
+graph = facebook.GraphAPI(access_token=at)
 
 def retrieve_stats(reaction):
     f = open('objectids.txt', 'r')
@@ -28,23 +28,26 @@ def retrieve_stats(reaction):
 
     tiedscore = ranklikes[0]+1
     scorenumber = 1
+    end_string = ''
     for i in range(100):
         score = ranklikes[i]
         try:
             userdict = graph.get_object(rankids[i], fields="name")
         except IndexError:
-            print('No more in the list')
             return
         username = userdict['name']
         try:
             if score == tiedscore:
-                print('Tied ' + str(scorenumber) + ' - ' + str(score) + ' - ' + str(username))
+                end_string.append('Tied ' + str(scorenumber) + ' - ' + str(score) + ' - ' + str(username))
+                end_string.append('\n')
             elif score < tiedscore:
                 scorenumber = i+1
                 if ranklikes[scorenumber] == ranklikes[scorenumber-1] and scorenumber < 100:
-                    print('Tied ' + str(scorenumber) + ' - ' + str(score) + ' - ' + str(username))
+                    end_string.append('Tied ' + str(scorenumber) + ' - ' + str(score) + ' - ' + str(username))
+                    end_string.append('\n')
                 else:
-                    print(str(scorenumber) + ' - ' + str(score) + ' - ' + str(username))
+                    end_string.append(str(scorenumber) + ' - ' + str(score) + ' - ' + str(username))
+                    end_string.append('\n')
                 tiedscore = score
         except IndexError:
             pass

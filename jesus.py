@@ -1,30 +1,17 @@
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import math, random
 import facebook, requests
-import time, datetime
-import threading
+import json
 import numpy as np
 
-
-## requires page id and access token to access that page
-page_id = "1250450778363053"
-acstoke = "replace this with the actual access token" 
-## for facebook graph API
+env = json.loads(open('env.json').read())
+page_id = env['page_id']
+acstoke = env['page_token']
 graph = facebook.GraphAPI(access_token=acstoke)
 
-def get_colordict():
-    colordict = []
-    with open('colordict.txt', 'r') as file:
-        for i in range(1291):
-            colorname = file.readline()[:-1]
-            rgb = file.readline()
-            rgb = tuple(int(item) for item in rgb[1:-2].split(',') if item.strip())
-            colordict.append([rgb, colorname])
-    return colordict
+colordict = json.loads(open('json/colordict.json').read())
 
 def rgb_to_hex(red, green, blue):
-    """Return color as #rrggbb for the given color values."""
-    ##http://stackoverflow.com/questions/214359/converting-hex-color-to-rgb-and-vice-versa
     return '#%02X%02X%02X' % (red, green, blue)
 
 def gen_shade(color, brightness, newlight):
@@ -76,10 +63,8 @@ def gen_shade(color, brightness, newlight):
 def gen_color_2(R, G, B):
     im = Image.new("RGBA", (2000, 2000), color=0)
     im.paste((R, G, B, 255), (0, 0, 2000, 2000))
-    im.save("ogcolor.png", "PNG")
-    im.save("ogcolors\\" + str(rgb_to_hex(R, G, B)) + ".png", "PNG")
     msg = gen_message(R, G, B, 2)
-    return(msg)
+    return {'image': im, 'message': msg}
 
 def gen_color(R, G, B):
     brightness = math.sqrt(0.299*R**2 + 0.587*G**2 + 0.114*B**2) / 255
@@ -168,20 +153,19 @@ def gen_color(R, G, B):
     drawf.text((2261-(font60.getsize('CMYK')[0]/2), 325), 'CMYK', font=font60, fill=(R, G, B, 255))
     drawf.text((2261-(font60.getsize('HSV')[0]/2), 560), 'HSV', font=font60, fill=(R, G, B, 255))
     
-    fim.save("fancy.png", "PNG")
-    fim.save("colors\\" + str(rgb_to_hex(R, G, B)) + ".png", "PNG")
+    return fim
 
 def gen_message(R, G, B, mode):
 
     ## finding the closest color in terms of RGB
     mindiff = 255*3
     colorapprox = ''
-    for color in colordict:
-        p = [R-color[0][0], G-color[0][1], B-color[0][2]]
+    for color, rgb in colordict.items():
+        p = [R-rgb[0], G-rgb[1], B-rgb[2]]
         dist = math.sqrt(p[0]**2 + p[1]**2 + p[2]**2)
         if dist < mindiff:
             mindiff = dist
-            colorapprox = color[1]
+            colorapprox = color
 
     if mindiff == 0:
         colorapprox2 = 'This is named'
@@ -212,7 +196,13 @@ def gen_message(R, G, B, mode):
 
     #generating wavelength approximation
     H = H*60
-    WL = -6.173261112*(10**-11)*(H**6) + 5.515102757*(10**-8)*(H**5) - 1.890868343*(10**-5)*(H**4) + 3.063661184*(10**-3)*(H**3) - 0.2277357517*(H**2) + 4.885819756*H + 650
+    WL = -6.173261112*(10**-11)*(H**6) \
+    + 5.515102757*(10**-8)*(H**5) \
+    - 1.890868343*(10**-5)*(H**4) \
+    + 3.063661184*(10**-3)*(H**3) \
+    - 0.2277357517*(H**2) \
+    + 4.885819756*H + 650
+    
     if WL > 780:
         WL = 'N/A'
     elif WL < 380:
@@ -255,61 +245,38 @@ def gen_message(R, G, B, mode):
 
     ## generating final image
     if mode == 1:
-        message = [str(R) + '-' + str(G) + '-' + str(B), str(rgb_to_hex(R, G, B)), HSV, C + ' ' + M + ' ' + Y + ' ' + K, WL, colorapprox, colorapprox2]
+        message = [str(R) + '-' + str(G) + '-' + str(B),
+                   str(rgb_to_hex(R, G, B)),
+                   HSV,
+                   C + ' ' + M + ' ' + Y + ' ' + K,
+                   WL,
+                   colorapprox, colorapprox2]
     elif mode == 2:
-        message = 'RGB: (' + str(R) + ', ' + str(G) + ', ' + str(B) + ')\nHex: ' + str(rgb_to_hex(R, G, B)) + '\nHSV: ' +  HSV + '\nCMYK: (' + str(C) + ', ' + M + ', ' + Y + ', ' + str(K) + ')\n' + 'Approx. wavelength: ' + WL + '\n' + colorapprox2 + ' ' + colorapprox
+        message = 'RGB: (' + str(R) + ', ' + str(G) + ', ' + str(B) \
+        + ')\nHex: ' + str(rgb_to_hex(R, G, B)) \
+        + '\nHSV: ' +  HSV \
+        + '\nCMYK: (' + str(C) + ', ' + M + ', ' + Y + ', ' + str(K) \
+        + ')\n' + 'Approx. wavelength: ' + WL \
+        + '\n' + colorapprox2 + ' ' + colorapprox
     return(message)
 
+def post():
+    R = random.randrange(0, 256)
+    G = random.randrange(0, 256)
+    B = random.randrange(0, 256)
+    color = gen_color(R, G, B)
+    color2 = gen_color_2(R, G, B)
+    msg = color2['message']
+    color2 = color2['image']
+    color.save('image.png', 'PNG')
+    graph.put_photo(image=open('image.png', 'rb'), message='')
+    f = open('objectids.txt', 'a')
+    postid = graph.get_object('me/feed', limit=1)['data'][0]['id']
+    f.write(str(postid) + '\n')
+    f.close()
+    color2.save('image.png', 'PNG')
+    graph.put_photo(image=open('image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
 
+if __name__ == "__main__":
+    post()
 
-
-def foo():
-    ## sets the next call to the current time
-    next_call = time.time()
-    while True:
-        print(time.asctime(time.localtime(time.time())))
-        R = random.randrange(0, 256)
-        G = random.randrange(0, 256)
-        B = random.randrange(0, 256)
-        gen_color(R, G, B)
-        msg = gen_color_2(R, G, B)
-        try:
-            graph.put_photo(image=open('fancy.png', 'rb'), message='')
-            f = open('objectids.txt', 'a')
-            postid = graph.get_object('me/feed', limit=1)['data'][0]['id']
-            f.write(str(postid) + '\n')
-            f.close()
-            try:
-                graph.put_photo(image=open('ogcolor.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
-                next_call = next_call + 3600
-            except:
-                time.sleep(30)
-                graph.put_photo(image=open('ogcolor.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
-                next_call = next_call + 3600
-        except:
-            next_call = next_call + 3600
-            
-        ## change the number (3600) for different counts (in seconds)
-        
-        ## sleeps for the period of time between now and the next call (in x seconds)
-        time.sleep(next_call - time.time())
-
-## command to start the thread even when the time is not appropriate
-def start_now():
-        timerThread = threading.Thread(target=foo)
-        timerThread.start()
-
-threadswitch = 0
-        
-####intiates the thread when the time is 0 minutes (every hour)
-def start_normal():
-    threadswitch = 0
-    while True:
-        if((time.asctime(time.localtime(time.time()))).split(':')[1]) in ['07'] and threadswitch == 0:
-            threadswitch = 1
-            timerThread = threading.Thread(target=foo)
-            timerThread.start()
-
-
-colordict = get_colordict()
-print('Jesus initialized\n"start_normal()" to resume posting\nor "start_now()" to start immediately')
