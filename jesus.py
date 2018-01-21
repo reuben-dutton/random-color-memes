@@ -3,13 +3,14 @@ import math, random
 import facebook, requests
 import json
 import numpy as np
+import sys
 
-env = json.loads(open('env.json').read())
+env = json.loads(open(sys.path[0] + '/env.json').read())
 page_id = env['page_id']
 acstoke = env['page_token']
 graph = facebook.GraphAPI(access_token=acstoke)
 
-colordict = json.loads(open('json/colordict.json').read())
+colordict = json.loads(open(sys.path[0] + '/json/colordict.json').read())
 
 def rgb_to_hex(red, green, blue):
     return '#%02X%02X%02X' % (red, green, blue)
@@ -270,7 +271,7 @@ def post():
     color2 = color2['image']
     color.save('image.png', 'PNG')
     graph.put_photo(image=open('image.png', 'rb'), message='')
-    f = open('objectids.txt', 'a')
+    f = open(sys.path[0] + '/objectids.txt', 'a')
     postid = graph.get_object('me/feed', limit=1)['data'][0]['id']
     f.write(str(postid) + '\n')
     f.close()
