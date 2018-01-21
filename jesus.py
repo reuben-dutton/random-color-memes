@@ -73,12 +73,12 @@ def gen_color(R, G, B):
     RGB, HEX, HSV, CMYK, WL, AC, ACT = gen_message(R, G, B, 1)
 
     #fonts for different stats
-    font70 = ImageFont.truetype("fonts/Oswald/Oswald-Bold.ttf", 70)
-    font55 = ImageFont.truetype("fonts/Oswald/Oswald-Bold.ttf", 55)
-    font50 = ImageFont.truetype("fonts/Oswald/Oswald-Bold.ttf", 50)
-    font60 = ImageFont.truetype("fonts/Oswald/Oswald-Bold.ttf", 60)
-    font100 = ImageFont.truetype("fonts/riffic/RifficFree-Bold.ttf", 100)
-    font150 = ImageFont.truetype("fonts/cheeky_rabbit/Cheeky Rabbit.ttf", 150)
+    font70 = ImageFont.truetype(sys.path[0] + "/fonts/Oswald/Oswald-Bold.ttf", 70)
+    font55 = ImageFont.truetype(sys.path[0] + "/fonts/Oswald/Oswald-Bold.ttf", 55)
+    font50 = ImageFont.truetype(sys.path[0] + "/fonts/Oswald/Oswald-Bold.ttf", 50)
+    font60 = ImageFont.truetype(sys.path[0] + "/fonts/Oswald/Oswald-Bold.ttf", 60)
+    font100 = ImageFont.truetype(sys.path[0] + "/fonts/riffic/RifficFree-Bold.ttf", 100)
+    font150 = ImageFont.truetype(sys.path[0] + "/fonts/cheeky_rabbit/Cheeky Rabbit.ttf", 150)
 
     im = Image.new("RGBA", (2525, 2000), color=0)
     im.paste((R, G, B, 255), (0, 0, 2525, 2000))
