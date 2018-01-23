@@ -11,19 +11,20 @@ at = env['page_token']
 graph = facebook.GraphAPI(access_token=at)
 
 def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
+    
     f = open(sys.path[0] + '/postids.txt', 'r')
     likes = []
+    ranking = {}
     for line in f:
         objID = line.replace('\n', '')
-        likes.append((graph.get_object(objID + '/reactions', limit=100))['data'])
-    f.close()
-
-    ranking = {}
-    for post in likes:
-        for minidict in post:
+        data = graph.get_object(objID + '/reactions', limit=100)['data']
+        
+        for minidict in data:
             if minidict['type'] in reaction:
                 userid = minidict['id']
                 ranking[userid] = ranking.get(userid, 0) + 1
+
+    f.close()
 
     ranklikes = sorted(ranking.values(), reverse=True)
     rankids = sorted(ranking, key=ranking.__getitem__, reverse=True)
