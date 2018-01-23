@@ -3,4 +3,5 @@
 *.jpg
 *.png
 *.pyc
+postids.txt
 env.json

@@ -271,7 +271,7 @@ def post():
     color2 = color2['image']
     color.save('image.png', 'PNG')
     graph.put_photo(image=open('image.png', 'rb'), message='')
-    f = open(sys.path[0] + '/objectids.txt', 'a')
+    f = open(sys.path[0] + '/postids.txt', 'a')
     postid = graph.get_object('me/feed', limit=1)['data'][0]['id']
     f.write(str(postid) + '\n')
     f.close()
