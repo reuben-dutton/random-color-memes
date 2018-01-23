@@ -11,13 +11,12 @@ at = env['page_token']
 graph = facebook.GraphAPI(access_token=at)
 
 def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
-    f = open(sys.path[0] + '\postids.txt', 'r')
+    f = open(sys.path[0] + '/postids.txt', 'r')
     likes = []
     for line in f:
         objID = line.replace('\n', '')
         likes.append((graph.get_object(objID + '/reactions', limit=100))['data'])
     f.close()
-    print(likes)
 
     ranking = {}
     for post in likes:
@@ -51,4 +50,6 @@ def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
                 tiedscore = score
         except IndexError:
             pass
+    print(end_string)
     
+rs()
