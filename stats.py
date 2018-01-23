@@ -31,7 +31,7 @@ def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
 
     tiedscore = ranklikes[0]+1
     scorenumber = 1
-    end_string = ''
+    end_string = 'TOP REACTS'
     for i in range(50):
         try:
             score = ranklikes[i]
@@ -51,6 +51,6 @@ def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
                 tiedscore = score
         except IndexError:
             pass
-    print(end_string)
-    
-rs()
+    return end_string
+
+graph.put_object(parent_object='me', connection_name='feed', message=rs())
