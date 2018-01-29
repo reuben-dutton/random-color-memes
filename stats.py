@@ -4,7 +4,7 @@ import json
 import time
 
 
-env = json.loads(open('env.json').read())
+env = json.loads(open(sys.path[0] + '/env.json').read())
 
 page_id = env['page_id']
 at = env['page_token']
