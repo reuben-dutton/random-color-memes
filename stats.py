@@ -53,4 +53,20 @@ def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
             pass
     return end_string
 
+def writealltime():
+    f = open(sys.path[0] + '/postids.txt', 'r')
+    f2 = open(sys.path[0] + '/postidsalltime', 'a')
+    for line in f:
+        f2.write(line)
+    f.close()
+    f2.close()
+
+def deletemonthly():
+    f = open(sys.path[0] + '/postids.txt', 'w')
+    f.write('')
+    f.close()
+
+writealltime()
 graph.put_object(parent_object='me', connection_name='feed', message=rs())
+deletemonthly()
+
