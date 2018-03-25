@@ -4,4 +4,5 @@
 *.png
 *.pyc
 postids.txt
+postidsalltime.txt
 env.json
