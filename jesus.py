@@ -166,7 +166,7 @@ def gen_message(R, G, B, mode):
         dist = math.sqrt(p[0]**2 + p[1]**2 + p[2]**2)
         if dist < mindiff:
             mindiff = dist
-            colorapprox = color
+            colorapprox = "I love you guys"
 
     if mindiff == 0:
         colorapprox2 = 'This is named'
@@ -270,13 +270,13 @@ def post():
     msg = color2['message']
     color2 = color2['image']
     color.save('image.png', 'PNG')
-    graph.put_photo(image=open('image.png', 'rb'), message='')
-    f = open(sys.path[0] + '/postids.txt', 'a')
-    postid = graph.get_object('me/feed', limit=1)['data'][0]['id']
-    f.write(str(postid) + '\n')
-    f.close()
-    color2.save('image.png', 'PNG')
-    graph.put_photo(image=open('image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
-
+##    graph.put_photo(image=open('image.png', 'rb'), message='')
+##    f = open(sys.path[0] + '/postids.txt', 'a')
+##    postid = graph.get_object('me/feed', limit=1)['data'][0]['id']
+##    f.write(str(postid) + '\n')
+##    f.close()
+##    color2.save('image.png', 'PNG')
+##    graph.put_photo(image=open('image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
+##
 if __name__ == "__main__":
     post()
