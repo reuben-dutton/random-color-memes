@@ -171,7 +171,7 @@ def gen_message(R, G, B, mode):
     if mindiff == 0:
         colorapprox2 = 'This is named'
     elif mindiff <= 12:
-        colorapprox2 = 'Identical to'
+        colorapprox2 = 'Almost identical to'
     elif mindiff <= 25:
         colorapprox2 = 'Close to'
     elif mindiff < 50:
@@ -277,6 +277,6 @@ def post():
     f.close()
     color2.save('image.png', 'PNG')
     graph.put_photo(image=open('image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
-
+    
 if __name__ == "__main__":
     post()
