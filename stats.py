@@ -55,7 +55,7 @@ def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
 
 def writealltime():
     f = open(sys.path[0] + '/postids.txt', 'r')
-    f2 = open(sys.path[0] + '/postidsalltime', 'a')
+    f2 = open(sys.path[0] + '/postidsalltime.txt', 'a')
     for line in f:
         f2.write(line)
     f.close()
