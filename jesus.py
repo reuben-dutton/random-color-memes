@@ -272,7 +272,7 @@ def post():
     msg2 = color2['message']
     color2 = color2['image']
     color.save('image.png', 'PNG')
-    postid = graph.put_photo(image=open('image.png', 'rb'), message=currenttheme.getName())
+    postid = graph.put_photo(image=open('image.png', 'rb'), message=msg1)
     with open(sys.path[0] + '/postids/postids.txt', 'a') as f:
         f.write(str(postid) + '\n')
     color2.save('image.png', 'PNG')
