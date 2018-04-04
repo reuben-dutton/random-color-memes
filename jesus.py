@@ -4,6 +4,7 @@ import facebook, requests
 import json
 import numpy as np
 import sys
+import jesus_supp as js
 
 env = json.loads(open(sys.path[0] + '/env.json').read())
 page_id = env['page_id']
@@ -11,9 +12,10 @@ acstoke = env['page_token']
 graph = facebook.GraphAPI(access_token=acstoke)
 
 colordict = json.loads(open(sys.path[0] + '/json/colordict.json').read())
+themes = json.loads(open(sys.path[0] + '/json/themes.json').read())
 
-def rgb_to_hex(red, green, blue):
-    return '#%02X%02X%02X' % (red, green, blue)
+def rgb_to_hex(r, g, b):
+    return '#%02X%02X%02X' % (r, g, b)
 
 def gen_shade(color, brightness, newlight):
     
@@ -262,21 +264,27 @@ def gen_message(R, G, B, mode):
     return(message)
 
 def post():
-    R = random.randrange(0, 256)
-    G = random.randrange(0, 256)
-    B = random.randrange(0, 256)
+    currenttheme = retrieve_theme()
+    R, G, B = currenttheme.getRandom()
+    msg1 = "Theme: " + currenttheme.getName()
     color = gen_color(R, G, B)
     color2 = gen_color_2(R, G, B)
-    msg = color2['message']
+    msg2 = color2['message']
     color2 = color2['image']
     color.save('image.png', 'PNG')
-    graph.put_photo(image=open('image.png', 'rb'), message='')
-    f = open(sys.path[0] + '/postids.txt', 'a')
-    postid = graph.get_object('me/feed', limit=1)['data'][0]['id']
-    f.write(str(postid) + '\n')
-    f.close()
+    postid = graph.put_photo(image=open('image.png', 'rb'), message=currenttheme.getName())
+    with open(sys.path[0] + '/postids/postids.txt', 'a') as f:
+        f.write(str(postid) + '\n')
     color2.save('image.png', 'PNG')
-    graph.put_photo(image=open('image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
+    graph.put_photo(image=open('image.png', 'rb'), message = msg2, album_path=str(postid) + '/comments')
+
+def retrieve_theme():
+    with open(sys.path[0] + "/themes/current.txt", "r") as f:
+        themename = f.readline()
+    theme = themes[themename]
+    result = js.ColorTheme(themename)
+    result.importTheme(theme)
+    return result
     
 if __name__ == "__main__":
     post()
