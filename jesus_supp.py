@@ -3,7 +3,7 @@ import random, math
 class ColorBubble():
     
     def __init__(self, origin, radius):
-        self._o = origin
+        self._o = list(origin)
         self._r = radius
 
     def __hash__(self):
