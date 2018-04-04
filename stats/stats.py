@@ -1,18 +1,19 @@
 import facebook, requests
 import sys
 import json
-import time
 
 
-env = json.loads(open(sys.path[0] + '/env.json').read())
+env = json.loads(open(sys.path[0] + '/../env.json').read())
 
 page_id = env['page_id']
 at = env['page_token']
 graph = facebook.GraphAPI(access_token=at)
 
-def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
-    
-    f = open(sys.path[0] + '/postids.txt', 'r')
+def rs(monthly, reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
+    if monthly:
+        f = open(sys.path[0] + '/postidsmonthly.txt', 'r')
+    else:
+        f = open(sys.path[0] + '/postids.txt', 'r')
     likes = []
     ranking = {}
     for line in f:
@@ -31,7 +32,8 @@ def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
 
     tiedscore = ranklikes[0]+1
     scorenumber = 1
-    end_string = 'TOP REACTS'
+    
+    end_string = 'TOP REACTS (' + monthly + ')'
     for i in range(50):
         try:
             score = ranklikes[i]
@@ -54,19 +56,41 @@ def rs(reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
     return end_string
 
 def writealltime():
-    f = open(sys.path[0] + '/postids.txt', 'r')
-    f2 = open(sys.path[0] + '/postidsalltime.txt', 'a')
-    for line in f:
+    f2 = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'r')
+    f3 = open(sys.path[0] + '/../postids/postidsalltime.txt', 'a')
+    for line in f2:
+        f3.write(line)
+    f2.close()
+    f3.close()
+
+def writemonthly()
+    f1 = open(sys.path[0] + '/../postids/postids.txt', 'r')
+    f2 = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'a')
+    for line in f1:
         f2.write(line)
-    f.close()
+    f1.close()
     f2.close()
 
-def deletemonthly():
-    f = open(sys.path[0] + '/postids.txt', 'w')
+def deletecurrent():
+    f = open(sys.path[0] + '/../postids/postids.txt', 'w')
     f.write('')
     f.close()
 
-writealltime()
-graph.put_object(parent_object='me', connection_name='feed', message=rs())
-deletemonthly()
+def deletemonthly():
+    f = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'w')
+    f.write('')
+    f.close()
+
+
+arg = sys.argv[1]
+if arg == "Monthly":
+    writemonthly()
+    writealltime()
+    graph.put_object(parent_object='me', connection_name='feed', message=rs(True))
+    deletecurrent()
+    deletemonthly()
+elif arg == "Bimonthly":
+    writemonthly()
+    graph.put_object(parent_object='me', connection_name='feed', message=rs(False))
+    deletecurrent()
 
