@@ -22,7 +22,7 @@ class ColorBubble():
             return False
         elif not (0 <= point[2] <= 255):
             return False
-        else
+        else:
             return (xdiff**2 + ydiff**2 + zdiff**2 <= self._r**2)
 
 class ColorTheme():
