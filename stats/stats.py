@@ -63,7 +63,7 @@ def writealltime():
     f2.close()
     f3.close()
 
-def writemonthly()
+def writemonthly():
     f1 = open(sys.path[0] + '/../postids/postids.txt', 'r')
     f2 = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'a')
     for line in f1:
