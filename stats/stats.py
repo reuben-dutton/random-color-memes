@@ -11,9 +11,9 @@ graph = facebook.GraphAPI(access_token=at)
 
 def rs(monthly, reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
     if monthly:
-        f = open(sys.path[0] + '/postidsmonthly.txt', 'r')
+        f = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'r')
     else:
-        f = open(sys.path[0] + '/postids.txt', 'r')
+        f = open(sys.path[0] + '/../postids/postids.txt', 'r')
     likes = []
     ranking = {}
     for line in f:
