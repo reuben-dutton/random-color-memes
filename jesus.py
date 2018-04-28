@@ -96,7 +96,7 @@ def genMessage(R, G, B):
         message["prename"] = 'Looks like'
 
     #generating wavelength approximation
-    H = conv_HSV(R, G, B)[0]*60
+    H = conv_HSV(R, G, B)[0]
     message["WAVE"] = -6.173261112*(10**-11)*(H**6) \
     + 5.515102757*(10**-8)*(H**5) \
     - 1.890868343*(10**-5)*(H**4) \
@@ -231,11 +231,11 @@ def post():
         ])
     print(msg)
     colorTemplate.save(sys.path[0] + '/image.png', 'PNG')
-    postid = graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message=theme)['post_id']
-    with open(sys.path[0] + '/postids/postids.txt', 'a') as f:
-        f.write(str(postid) + '\n')
-    colorPlain.save(sys.path[0] + '/image.png', 'PNG')
-    graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
+##    postid = graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message=theme)['post_id']
+##    with open(sys.path[0] + '/postids/postids.txt', 'a') as f:
+##        f.write(str(postid) + '\n')
+##    colorPlain.save(sys.path[0] + '/image.png', 'PNG')
+##    graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
 
 if __name__ == "__main__":
     post()
