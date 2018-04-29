@@ -231,11 +231,11 @@ def post():
         ])
     print(msg)
     colorTemplate.save(sys.path[0] + '/image.png', 'PNG')
-##    postid = graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message=theme)['post_id']
-##    with open(sys.path[0] + '/postids/postids.txt', 'a') as f:
-##        f.write(str(postid) + '\n')
-##    colorPlain.save(sys.path[0] + '/image.png', 'PNG')
-##    graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
+    postid = graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message=theme)['post_id']
+    with open(sys.path[0] + '/postids/postids.txt', 'a') as f:
+        f.write(str(postid) + '\n')
+    colorPlain.save(sys.path[0] + '/image.png', 'PNG')
+    graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'), message = msg, album_path=str(postid) + '/comments')
 
 if __name__ == "__main__":
     post()
