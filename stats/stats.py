@@ -12,8 +12,10 @@ graph = facebook.GraphAPI(access_token=at)
 def rs(monthly, reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
     if monthly:
         f = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'r')
+        end_string = 'TOP REACTS (Monthly)'
     else:
         f = open(sys.path[0] + '/../postids/postids.txt', 'r')
+        end_string = 'TOP REACTS (Bimonthly)'
     likes = []
     ranking = {}
     for line in f:
@@ -33,7 +35,6 @@ def rs(monthly, reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
     tiedscore = ranklikes[0]+1
     scorenumber = 1
     
-    end_string = 'TOP REACTS (' + monthly + ')'
     for i in range(50):
         try:
             score = ranklikes[i]
