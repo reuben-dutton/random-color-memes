@@ -1,13 +1,4 @@
-import facebook, requests
 import sys
-import json
-
-
-env = json.loads(open(sys.path[0] + '/../env.json').read())
-
-page_id = env['page_id']
-at = env['page_token']
-graph = facebook.GraphAPI(access_token=at)
 
 def rs(monthly, reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
     if monthly:
@@ -81,17 +72,3 @@ def deletemonthly():
     f = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'w')
     f.write('')
     f.close()
-
-
-arg = sys.argv[1]
-if arg == "Monthly":
-    writemonthly()
-    writealltime()
-    graph.put_object(parent_object='me', connection_name='feed', message=rs(True))
-    deletecurrent()
-    deletemonthly()
-elif arg == "Bimonthly":
-    writemonthly()
-    graph.put_object(parent_object='me', connection_name='feed', message=rs(False))
-    deletecurrent()
-
