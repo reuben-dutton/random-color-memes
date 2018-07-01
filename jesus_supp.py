@@ -26,6 +26,16 @@ class ColorBubble():
         else:
             return (xdiff**2 + ydiff**2 + zdiff**2 <= self._r**2)
 
+    def getRandom(self):
+        r = random.randint(self._o[0] - self._r, self._o[0] + self._r)
+        g = random.randint(self._o[1] - self._r, self._o[1] + self._r)
+        b = random.randint(self._o[2] - self._r, self._o[2] + self._r)
+        while not self.contains((r, g, b)):
+            r = random.randint(self._o[0] - self._r, self._o[0] + self._r)
+            g = random.randint(self._o[1] - self._r, self._o[1] + self._r)
+            b = random.randint(self._o[2] - self._r, self._o[2] + self._r)
+        return (r, g, b, 255)
+
 class ColorTheme():
 
     def __init__(self, name):

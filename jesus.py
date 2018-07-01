@@ -12,14 +12,21 @@ page_id = env['page_id']
 acstoke = env['page_token']
 graph = facebook.GraphAPI(access_token=acstoke)
 
-colordict = json.loads(open(sys.path[0] + '/json/colordict.json').read())
-themes = json.loads(open(sys.path[0] + '/json/themes.json').read())
+colordict = json.loads(open(sys.path[0]+'/json/colordict.json').read())
+themes = json.loads(open(sys.path[0]+'/json/themes.json').read())
 
-font70 = ImageFont.truetype(sys.path[0] + "/fonts/Oswald/Oswald-Bold.ttf", 70)
-font60 = ImageFont.truetype(sys.path[0] + "/fonts/Oswald/Oswald-Bold.ttf", 60)
-font50 = ImageFont.truetype(sys.path[0] + "/fonts/Oswald/Oswald-Bold.ttf", 50)
+fontpath = "/fonts/Oswald/Oswald-Bold.ttf"
+font70 = ImageFont.truetype(sys.path[0] + fontpath, 70)
+font60 = ImageFont.truetype(sys.path[0] + fontpath, 60)
+font50 = ImageFont.truetype(sys.path[0] + fontpath, 50)
 
 def conv_HSV(R, G, B):
+    '''
+        Converts a color in RGB format to HSV format
+
+        Args:
+            R: The red content of 
+    '''
     RInv = R/255
     GInv = G/255
     BInv = B/255
