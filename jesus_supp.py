@@ -34,7 +34,7 @@ class ColorBubble():
             r = random.randint(self._o[0] - self._r, self._o[0] + self._r)
             g = random.randint(self._o[1] - self._r, self._o[1] + self._r)
             b = random.randint(self._o[2] - self._r, self._o[2] + self._r)
-        return (r, g, b, 255)
+        return (r, g, b)
 
 class ColorTheme():
 
