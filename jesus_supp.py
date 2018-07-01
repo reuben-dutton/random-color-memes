@@ -1,4 +1,5 @@
 import random, math
+from numpy.random import choice
 
 class ColorBubble():
     
@@ -49,11 +50,8 @@ class ColorTheme():
         return returnvalue
         
     def getRandom(self):
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-        while not self.contains((r, g, b)):
-            r = random.randint(0, 255)
-            g = random.randint(0, 255)
-            b = random.randint(0, 255)
-        return (r, g, b)
+        weights = [bubble._r for bubble in list(self._cbs)]
+        total = sum(weights)
+        weights = [w/total for w in weights]
+        bubble = choice(list(self._cbs), p=weights)
+        return bubble.getRandom()
