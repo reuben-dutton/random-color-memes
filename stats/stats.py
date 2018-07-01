@@ -1,4 +1,12 @@
 import sys
+import json
+import facebook, requests
+
+env = json.loads(open(sys.path[0] + '/../env.json').read())
+
+page_id = env['page_id']
+at = env['page_token']
+graph = facebook.GraphAPI(access_token=at)
 
 def rs(monthly, reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
     if monthly:
