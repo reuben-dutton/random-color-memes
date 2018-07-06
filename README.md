@@ -1,6 +1,6 @@
 # Random Color Memes
 
-![Example Color](fancy.png?raw=true)
+![Example Color](https://i.imgur.com/pBjk2rE.png?raw=true)
 
 This script generates a random color every hour along with bits of relevant information (demonstrated in the image above) and posts the image to the [Random Color Memes](https://www.facebook.com/randomcolormemes/) Facebook page.
 
