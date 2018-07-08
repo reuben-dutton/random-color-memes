@@ -1,6 +1,6 @@
 # Random Color Memes
 
-This script generates an image of a random color as well as information about that color and posts it to a specific [Random Color Memes](https://www.facebook.com/randomcolormemes/) Facebook page.
+This script generates an image of a random color as well as information about that color and posts it to the [Random Color Memes](https://www.facebook.com/randomcolormemes/) Facebook page.
 
 ![Example Color](https://i.imgur.com/pBjk2rE.png?raw=true)
 
