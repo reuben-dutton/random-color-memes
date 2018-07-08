@@ -478,4 +478,4 @@ def post():
     # the post that was just made.
     color_plain.save(sys.path[0] + '/image.png', 'PNG')
     graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'),
-                    message = msg, album_path=str(postid) + '/comments')
+                    message = msg, album_path=str(post_id) + '/comments')
