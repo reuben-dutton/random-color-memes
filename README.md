@@ -12,14 +12,16 @@ Lastly, the script determines which color from [this list](https://en.wikipedia.
 The page also has a few automated functions:
 
  - **Top Reacters List**
+ 
  The scripts above keep track of how many reactions each person who likes the page makes within specific timeframes. At certain points in the month, a post is made to the page with the names, total reactions and rank of the top 50 reacters (for the last 15 days if it's a bimonthly list, and the last month if it's a monthly list).
  
  - **Theme Days**
+ 
  The script also has the capability to select a random color within a select subset of colours. For instance, an 'Ocean' theme may only allow blues and aqua greens to be selected as the random color. For each theme day, a theme is selected either through a community vote (where the day before the theme is used users vote from a random selection of 6 themes for which one they want) or is selected randomly. In either case, the theme is used for 24 hours (a day), during which the script only selects colours from within that theme.
  
 ## Schedule
 
-The page follows the following schedule as of 8/07/2018. Note that the schedule is dependent on the month rather than the week. (Color votes have not been implemented, but they will likely be added in those positions on the calendar.
+The page follows the following schedule as of 8/07/2018. Note that the schedule is dependent on the month rather than the week. (Color votes have not been implemented, but they will likely be added in those positions on the calendar)
 
 ![Schedule](https://i.imgur.com/jyXM3fq.jpg?raw=true)
 
