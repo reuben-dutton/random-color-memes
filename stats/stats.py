@@ -68,9 +68,12 @@ def rs(monthly, reaction=['LIKE', 'LOVE', 'WOW', 'SAD', 'ANGRY', 'HAHA']):
         data = graph.get_object(objID + '/reactions', limit=100)['data']
         
         for minidict in data:
-            if minidict['type'] in reaction:
-                userid = minidict['id']
-                ranking[userid] = ranking.get(userid, 0) + 1
+            try:
+                if minidict['type'] in reaction:
+                    userid = minidict['id']
+                    ranking[userid] = ranking.get(userid, 0) + 1
+            except:
+                pass
 
     f.close()
 
