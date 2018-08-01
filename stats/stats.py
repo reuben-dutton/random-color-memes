@@ -150,17 +150,17 @@ def cleanpostids():
     f1 = open(sys.path[0] + '/../postids/postidsmonthly.txt', 'r')
     f2 = open(sys.path[0] + '/../postids/postids.txt', 'r')
     postids = set()
-    postidsmonthly = []
+    postidsmonthly = set()
     for line in f2:
         postids.add(line.replace('\n', ''))
     for line in f1:
         postid = line.replace('\n', '')
         if postid not in postids:
-            postidsmonthly.append(postid)
+            postidsmonthly.add(postid)
     f1.close()
     f2.close()
     
-    with open(sys.path[0]+'/../postids/postidsmonthly.txt', 'r') as f1:
+    with open(sys.path[0]+'/../postids/postidsmonthly.txt', 'w') as f1:
         for postid in postidsmonthly:
             f1.write(postid + '\n')
     
