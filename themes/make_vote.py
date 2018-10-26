@@ -1,5 +1,6 @@
-import facebook, requests
-import math, random
+import facebook
+import requests
+import random
 import json
 import sys
 
@@ -20,17 +21,15 @@ themes = json.loads(open(sys.path[0] + '/../json/themes.json').read())
 
 # Selects 6 theme names at random from the themes list and saves the
 # results to a list.
-chosen_themes = random.sample(list(themes.keys()), 6)
+chosen_themes = random.sample(list(themes.keys()), 5)
 
 # Assigns each theme a reaction.
 reactions = {
-    "LIKE": chosen_themes[0],
-    "LOVE": chosen_themes[1],
-    "HAHA": chosen_themes[2],
-    "WOW": chosen_themes[3],
-    "SAD": chosen_themes[4],
-    "ANGRY": chosen_themes[5]
-    }
+    "LOVE": chosen_themes[0],
+    "HAHA": chosen_themes[1],
+    "WOW": chosen_themes[2],
+    "SAD": chosen_themes[3],
+    "ANGRY": chosen_themes[4]}
 
 # Saves the reaction assignment to a json file for later reference.
 with open(sys.path[0] + "/votereactions.json", "w") as votefile:
@@ -46,12 +45,11 @@ msg = "THEME VOTE" \
       + "The theme of the week will be the" \
       + " selected highest voted theme." \
       + "\n" \
-      + u"\U0001F44D" + " - " + chosen_themes[0] + "\n" \
-      + u"\U0001F493" + " - " + chosen_themes[1] + "\n" \
-      + u"\U0001F602" + " - " + chosen_themes[2] + "\n" \
-      + u"\U0001F62E" + " - " + chosen_themes[3] + "\n" \
-      + u"\U0001F622" + " - " + chosen_themes[4] + "\n" \
-      + u"\U0001F620" + " - " + chosen_themes[5] + "\n" \
+      + u"\U0001F493" + " - " + chosen_themes[0] + "\n" \
+      + u"\U0001F602" + " - " + chosen_themes[1] + "\n" \
+      + u"\U0001F62E" + " - " + chosen_themes[2] + "\n" \
+      + u"\U0001F622" + " - " + chosen_themes[3] + "\n" \
+      + u"\U0001F620" + " - " + chosen_themes[4] + "\n" \
       + "\n" \
       + "This vote will close 24 hours after this" \
       + " post is made. Feel free to comment some" \

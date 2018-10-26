@@ -1,4 +1,5 @@
-import facebook, requests
+import facebook
+import requests
 import json
 import sys
 

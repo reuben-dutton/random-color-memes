@@ -479,3 +479,43 @@ def post():
     color_plain.save(sys.path[0] + '/image.png', 'PNG')
     graph.put_photo(image=open(sys.path[0] + '/image.png', 'rb'),
                     message = msg, album_path=str(post_id) + '/comments')
+
+def custom():
+    '''
+        Makes a random color but does not post it to the facebook page.
+
+        The color chosen is at random, but is selected with the current
+        theme in mind.
+    '''
+    # Retrieve the current theme and generate a random color from that
+    # theme.
+    current_theme = retrieve_theme()
+    r, g, b = 140, 20, 20
+
+    # Create two images - one is a plain image of the color and the other
+    # also has additional information appended to the right side.
+    color_template = genTemplateColor(r, g, b)
+    color_plain = genPlainColor(r, g, b)
+
+    # Create text containing the theme name to be posted with the
+    # image containing the information display.
+    theme = "Theme: %s" % current_theme.getName()
+
+    # Generate a plaintext message containing the information about the
+    # color.
+    msg = genMessage(r, g, b)
+    msg = '\n'.join([
+        "RGB: (%s, %s, %s)" % msg["RGB"],
+        "CMYK: (%.2f, %.2f, %.2f, %.2f)" % msg["CMYK"],
+        "HSV: %.1f°, %.1f%%, %.1f%%" % msg["HSV"],
+        "HEX: %s" % msg["HEX"],
+        "WAVELENGTH: %s" % msg["WAVE"],
+        "%s %s" % (msg["prename"], msg["name"])
+        ])
+
+    # Print the message as confirmation that the script has worked.
+    print(msg)
+
+    # Save the image and then post it to the Facebook Graph API.
+    color_template.save(sys.path[0] + '/image.png', 'PNG')
+
