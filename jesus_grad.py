@@ -535,7 +535,7 @@ def custom():
     # theme.
     current_theme = retrieve_theme()
 
-    colors = [[15, 82, 186], [191, 0, 255]]
+    colors = [[29, 68, 108], [241, 241, 241]]
 
     color_template = genTemplateColor(colors)
 
